@@ -27,6 +27,7 @@ Xem `BACKLOG.md` — 11 epic, thứ tự thực thi ở cuối file.
   - Sliding refresh app (optional): response header `X-Session-Token` khi token quá nửa đời; else 401 → re-login.
 - **D3 (nguồn chân lý)**: Logic đang ở JS client (`computeBacklog`, dedup fingerprint, analytics) đẩy về backend trả JSON — tránh parity Python↔Kotlin. App chỉ hiển thị.
 - **D4 (build)**: Version catalog (`gradle/libs.versions.toml`) làm nguồn version duy nhất. Wrapper jar commit vào repo (bản chính thức v8.10.2).
+- **D5 (role, E2.4)**: Session token chỉ mang `{email,iat,exp}`, KHÔNG có role claim; backend chưa có role endpoint. Nên app đọc `email` từ payload token (không verify chữ ký — backend verify) rồi map email→`Role` (ADMIN/QA/DEV) tại **một chỗ duy nhất** `Role.fromEmail` theo team table (spec §2). Gate UI: Dashboard = ADMIN; MyWork+Bugs = mọi role; DEV = Bug Log read-only + export. **KHÔNG phải security boundary** — mọi write vẫn do backend enforce (401/403); gate chỉ để UX. Nếu sau này backend thêm `role` claim / `/api/me` thì chỉ đổi `Role.fromEmail`, UI giữ nguyên.
 
 ## OPSEC (NON-NEGOTIABLE — spec §7)
 - KHÔNG hardcode PAT/secret vào code/resource. PAT → EncryptedSharedPreferences.
