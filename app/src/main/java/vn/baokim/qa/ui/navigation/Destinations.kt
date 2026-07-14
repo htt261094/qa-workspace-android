@@ -7,6 +7,11 @@ import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.ui.graphics.vector.ImageVector
 import vn.baokim.qa.data.auth.Role
 
+/** Non-tab routes pushed on top of the bottom-nav scaffold (settings, detail, …). */
+object Routes {
+    const val PAT = "settings/pat" // PAT cá nhân (E3, #5)
+}
+
 /** Bottom-nav tabs (spec §9.2). Task detail is pushed on top, not a tab. */
 enum class TopDestination(
     val route: String,
