@@ -21,6 +21,7 @@ object PatRedactingLogger {
         logger.redactHeader("Authorization")
         logger.redactHeader("Cookie")
         logger.redactHeader("Set-Cookie")
+        logger.redactHeader("X-Session-Token") // sliding-refresh session token (D2)
         return logger
     }
 }

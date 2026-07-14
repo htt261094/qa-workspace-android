@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.browser) // Custom Tabs — OAuth login (E2, D2 hướng C)
     debugImplementation(libs.androidx.ui.tooling)
 
     // Networking (wired in E1.3)

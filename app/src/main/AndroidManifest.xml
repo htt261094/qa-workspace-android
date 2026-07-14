@@ -17,10 +17,23 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.QaWorkspace">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- App Links auth redirect (E2, D2a): server hands back the session token at
+                 https://baokim-qa.com/app/auth#token=... . autoVerify checks ownership via
+                 /.well-known/assetlinks.json (fingerprints in backend .env, see SIGNING.md). -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https"
+                    android:host="baokim-qa.com"
+                    android:path="/app/auth" />
             </intent-filter>
         </activity>
     </application>
