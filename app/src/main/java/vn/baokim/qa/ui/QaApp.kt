@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import vn.baokim.qa.R
 import vn.baokim.qa.data.auth.Role
+import vn.baokim.qa.ui.dashboard.DashboardScreen
 import vn.baokim.qa.ui.mywork.MyWorkScreen
 import vn.baokim.qa.ui.navigation.Routes
 import vn.baokim.qa.ui.navigation.TopDestination
@@ -83,7 +84,7 @@ fun QaApp(role: Role) {
             // Dashboard route is registered only for roles that may see it — no dead
             // deep-link into an admin screen for QA/dev (its tab is hidden anyway).
             if (role.canSeeDashboard) {
-                composable(TopDestination.Dashboard.route) { PlaceholderScreen("Dashboard team (E6)") }
+                composable(TopDestination.Dashboard.route) { DashboardScreen() }
             }
             composable(TopDestination.MyWork.route) { MyWorkScreen() }
             composable(TopDestination.Bugs.route) {
