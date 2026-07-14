@@ -24,4 +24,5 @@ data class MyWorkTaskEntity(
     val dueDate: String?,
     val overdue: Boolean,
     val url: String?,
+    val customs: String = "", // custom-status slugs as CSV (E5.5); "" = none
 )

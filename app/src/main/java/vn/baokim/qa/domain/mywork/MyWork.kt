@@ -21,7 +21,8 @@ data class MyWorkTask(
     val statusCategory: StatusCategory,
     val dueDate: String?,         // ISO yyyy-MM-dd (backend `due`), or null
     val overdue: Boolean,         // backend-computed (`overdue`) — app doesn't re-derive
-    val url: String?,             // Jira browse URL (detail screen is E5; unused for now)
+    val url: String?,             // Jira browse URL
+    val customs: List<String> = emptyList(), // custom-status slugs, seeds the detail overlay (E5.5)
 )
 
 /**

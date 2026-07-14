@@ -47,11 +47,11 @@ Logic nghiệp vụ giữ nguyên, chỉ đổi output layer `render_*()` → `j
 - [x] **E4.4** Room cache offline cho list gần nhất. (#7)
 
 ## E5 — Chi tiết task (P0) ⇦ E4
-- [ ] **E5.1** Màn detail: `/issue-comments` → mô tả + comment history.
-- [ ] **E5.2** Gửi comment `/add-comment` (ghi bằng PAT cá nhân).
-- [ ] **E5.3** Đổi status: `/jira-transitions` → `/do-transition`.
-- [ ] **E5.4** Đổi due date: gate `/duedate-perm` → `/set-duedate`.
-- [ ] **E5.5** Custom status overlay (8 nhãn, nhiều nhãn/task) `/set-custom-status`.
+- [x] **E5.1** Màn detail: `/issue-comments` → mô tả + comment history. (#10 — network-only, D8; kèm bug/testcase đã link)
+- [x] **E5.2** Gửi comment `/add-comment` (ghi bằng PAT cá nhân). (#10)
+- [x] **E5.3** Đổi status: `/jira-transitions` → `/do-transition`. (#10 — dialog list transition khả dụng)
+- [x] **E5.4** Đổi due date: gate `/duedate-perm` → `/set-duedate`. (#10 — DatePicker, xoá hạn = duedate rỗng)
+- [x] **E5.5** Custom status overlay (8 nhãn, nhiều nhãn/task) `/set-custom-status`. (#10 — seed từ nav arg, D8)
 
 ## E6 — Dashboard team admin (P0) ⇦ E0.3, E2.4
 - [x] **E6.1** Repository + model `/api/dashboard`. (#9 — network-only, cache optional theo D7)

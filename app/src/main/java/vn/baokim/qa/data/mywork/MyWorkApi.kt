@@ -35,4 +35,5 @@ data class TaskDto(
     val due: String? = null,     // ISO yyyy-MM-dd, or null
     val overdue: Boolean = false,
     val jiraUrl: String? = null,
+    val customs: List<String> = emptyList(), // internal custom-status slugs (E5.5 overlay seed)
 )

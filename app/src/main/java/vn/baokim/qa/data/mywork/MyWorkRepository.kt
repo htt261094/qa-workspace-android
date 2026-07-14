@@ -61,6 +61,7 @@ private fun TaskDto.toDomain(): MyWorkTask = MyWorkTask(
     dueDate = due,
     overdue = overdue,
     url = jiraUrl,
+    customs = customs,
 )
 
 private fun List<TaskBucket>.toEntities(): List<MyWorkTaskEntity> =
@@ -78,6 +79,7 @@ private fun List<TaskBucket>.toEntities(): List<MyWorkTaskEntity> =
                 dueDate = task.dueDate,
                 overdue = task.overdue,
                 url = task.url,
+                customs = task.customs.joinToString(","),
             )
         }
     }
@@ -99,4 +101,5 @@ private fun MyWorkTaskEntity.toDomain(): MyWorkTask = MyWorkTask(
     dueDate = dueDate,
     overdue = overdue,
     url = url,
+    customs = if (customs.isBlank()) emptyList() else customs.split(","),
 )
