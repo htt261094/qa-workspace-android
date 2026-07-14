@@ -28,33 +28,56 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vn.baokim.qa.R
 import vn.baokim.qa.domain.mywork.MyWorkTask
 import vn.baokim.qa.domain.mywork.StatusCategory
 import vn.baokim.qa.domain.mywork.TaskBucket
+import vn.baokim.qa.ui.theme.QaWorkspaceTheme
 
 /**
- * "Việc của tôi" — the personal task lens (E4, #7). Renders the server's buckets in order
- * (D3), each task as a card with a statusCategory-coloured pill. Pull down to refresh
- * (E4.3); shows loading / empty / error states, and keeps cached data visible offline
- * (E4.4) with only a lightweight failure hint on top.
+ * "Việc của tôi" — the personal task lens (E4, #7). Stateful entry: wires the Hilt
+ * ViewModel and hands its state to the stateless [MyWorkContent].
+ *
+ * Under Compose Preview / layoutlib there's no Activity context, so `hiltViewModel()`
+ * throws (it needs a real `ViewModelStoreOwner`). We short-circuit in inspection mode and
+ * render sample content instead — this keeps both this screen's preview and the QaApp
+ * shell preview (which hosts MyWork as the start destination) rendering.
+ */
+@Composable
+fun MyWorkScreen(modifier: Modifier = Modifier) {
+    if (LocalInspectionMode.current) {
+        MyWorkContent(MyWorkUiState(loading = false, buckets = SAMPLE_BUCKETS), {}, {}, modifier)
+        return
+    }
+    val viewModel: MyWorkViewModel = hiltViewModel()
+    val state by viewModel.state.collectAsState()
+    MyWorkContent(state, viewModel::onPullRefresh, viewModel::retry, modifier)
+}
+
+/**
+ * Renders the server's buckets in order (D3), each task as a card with a
+ * statusCategory-coloured pill. Pull down to refresh (E4.3); shows loading / empty /
+ * error states, and keeps cached data visible offline (E4.4) with only a lightweight
+ * failure hint on top. Stateless so it can be previewed and tested without Hilt.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyWorkScreen(
+fun MyWorkContent(
+    state: MyWorkUiState,
+    onRefresh: () -> Unit,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MyWorkViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsState()
-
     PullToRefreshBox(
         isRefreshing = state.refreshing,
-        onRefresh = viewModel::onPullRefresh,
+        onRefresh = onRefresh,
         modifier = modifier.fillMaxSize(),
     ) {
         when {
@@ -63,7 +86,7 @@ fun MyWorkScreen(
             state.isErrorEmpty -> CenterMessage(
                 text = stringResource(R.string.mywork_error),
                 actionLabel = stringResource(R.string.mywork_retry),
-                onAction = viewModel::retry,
+                onAction = onRetry,
             )
 
             state.isEmpty -> CenterMessage(text = stringResource(R.string.mywork_empty))
@@ -183,4 +206,37 @@ private fun CenterMessage(
             }
         }
     }
+}
+
+// --- previews ----------------------------------------------------------------
+
+private val SAMPLE_BUCKETS = listOf(
+    TaskBucket(
+        key = "doing", label = "Đang làm",
+        tasks = listOf(
+            MyWorkTask("PSIT1H26-123", "[QA] Test luồng thanh toán ví", "In Progress",
+                StatusCategory.INDETERMINATE, "2026-07-18", "thanhht1", "PSIT1H26", null, false),
+            MyWorkTask("DA51H26-88", "[QA] Regression đăng nhập", "PENDING",
+                StatusCategory.INDETERMINATE, "2026-07-10", "thanhht1", "DA51H26", null, true),
+        ),
+    ),
+    TaskBucket(
+        key = "todo", label = "TO DO",
+        tasks = listOf(
+            MyWorkTask("DA61H26-4", "[QA] Viết test case OTP", "TO DO",
+                StatusCategory.NEW, null, "thanhht1", "DA61H26", null, false),
+        ),
+    ),
+)
+
+@Preview(name = "MyWork — list", showBackground = true)
+@Composable
+private fun MyWorkListPreview() {
+    QaWorkspaceTheme { MyWorkContent(MyWorkUiState(loading = false, buckets = SAMPLE_BUCKETS), {}, {}) }
+}
+
+@Preview(name = "MyWork — empty", showBackground = true)
+@Composable
+private fun MyWorkEmptyPreview() {
+    QaWorkspaceTheme { MyWorkContent(MyWorkUiState(loading = false), {}, {}) }
 }
