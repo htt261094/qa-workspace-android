@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base theme for the Activity window; Compose (QaWorkspaceTheme) drives actual UI colors. -->
+    <style name="Theme.QaWorkspace" parent="android:Theme.Material.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+</resources>

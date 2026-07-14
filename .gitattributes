@@ -1,0 +1,14 @@
+# Normalize text to LF in the repo
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF
+*.bat text eol=crlf
+
+# gradlew must stay LF (POSIX shell)
+gradlew text eol=lf
+
+# Binary
+*.jar binary
+*.png binary
+*.jks binary
+*.keystore binary
