@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import vn.baokim.qa.data.local.MyWorkDao
 import vn.baokim.qa.data.local.MyWorkTaskEntity
+import vn.baokim.qa.domain.mywork.MyWorkBuckets
 import vn.baokim.qa.domain.mywork.MyWorkTask
 import vn.baokim.qa.domain.mywork.StatusCategory
 import vn.baokim.qa.domain.mywork.TaskBucket
@@ -18,12 +19,13 @@ sealed interface RefreshResult {
 
 /**
  * Single source of truth for "Việc của tôi" (E4, #7): the UI observes [observeBuckets]
- * (backed by Room), and [refresh] pulls `/api/my-work` and replaces the cache. This
- * cache-first shape means the list renders offline / instantly on cold start, then
- * updates when the network answers (E4.3/E4.4).
+ * (backed by Room), and [refresh] pulls `/api/my-work` and replaces the cache. Cache-first
+ * so the list renders offline / instantly on cold start, then updates when the network
+ * answers (E4.3/E4.4).
  *
- * All grouping/ordering is preserved exactly as the server sent it (D3) via the
- * bucket/task order columns; the repository only maps shapes, it decides nothing.
+ * The endpoint is a flat list; grouping into buckets + sort lives in [MyWorkBuckets] (D6).
+ * The cache stores the already-grouped result (bucket/task order columns) so reads just
+ * regroup by key without re-deriving.
  */
 @Singleton
 class MyWorkRepository @Inject constructor(
@@ -40,7 +42,8 @@ class MyWorkRepository @Inject constructor(
         if (!response.ok) {
             RefreshResult.Error
         } else {
-            dao.replaceAll(response.buckets.toEntities())
+            val buckets = MyWorkBuckets.group(response.tasks.map { it.toDomain() })
+            dao.replaceAll(buckets.toEntities())
             RefreshResult.Success
         }
     } catch (e: Exception) {
@@ -50,7 +53,17 @@ class MyWorkRepository @Inject constructor(
 
 // --- mappers -----------------------------------------------------------------
 
-private fun List<TaskBucketDto>.toEntities(): List<MyWorkTaskEntity> =
+private fun TaskDto.toDomain(): MyWorkTask = MyWorkTask(
+    key = key,
+    summary = summary,
+    status = jira,
+    statusCategory = StatusCategory.fromStatus(jira),
+    dueDate = due,
+    overdue = overdue,
+    url = jiraUrl,
+)
+
+private fun List<TaskBucket>.toEntities(): List<MyWorkTaskEntity> =
     flatMapIndexed { bucketOrder, bucket ->
         bucket.tasks.mapIndexed { taskOrder, task ->
             MyWorkTaskEntity(
@@ -61,12 +74,10 @@ private fun List<TaskBucketDto>.toEntities(): List<MyWorkTaskEntity> =
                 taskOrder = taskOrder,
                 summary = task.summary,
                 status = task.status,
-                statusCategory = task.statusCategory,
+                statusCategory = task.statusCategory.name,
                 dueDate = task.dueDate,
-                assignee = task.assignee,
-                project = task.project,
-                url = task.url,
                 overdue = task.overdue,
+                url = task.url,
             )
         }
     }
@@ -75,23 +86,17 @@ private fun List<MyWorkTaskEntity>.toBuckets(): List<TaskBucket> =
     groupBy { it.bucketKey }
         .map { (_, rows) ->
             val head = rows.first()
-            TaskBucket(
-                key = head.bucketKey,
-                label = head.bucketLabel,
-                tasks = rows.map { it.toDomain() },
-            )
+            TaskBucket(head.bucketKey, head.bucketLabel, rows.map { it.toDomain() })
         }
-    // rows already arrive ordered by bucketOrder,taskOrder (DAO query); groupBy is stable,
-    // so buckets and tasks keep the server's order without re-sorting.
+    // rows arrive ordered by bucketOrder,taskOrder (DAO query) and groupBy is stable,
+    // so buckets and tasks keep the grouped order without re-sorting.
 
 private fun MyWorkTaskEntity.toDomain(): MyWorkTask = MyWorkTask(
     key = key,
     summary = summary,
     status = status,
-    statusCategory = StatusCategory.from(statusCategory),
+    statusCategory = StatusCategory.ofName(statusCategory),
     dueDate = dueDate,
-    assignee = assignee,
-    project = project,
-    url = url,
     overdue = overdue,
+    url = url,
 )
