@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark variant — Compose (QaWorkspaceTheme) vẫn drive màu UI thật. -->
+    <style name="Theme.QaWorkspace" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+</resources>
