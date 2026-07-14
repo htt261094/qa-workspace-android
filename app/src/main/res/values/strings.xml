@@ -27,4 +27,22 @@
     <string name="mywork_retry">Thử lại</string>
     <string name="mywork_stale">Đang hiển thị dữ liệu offline — làm mới thất bại</string>
     <string name="mywork_due">Hạn %1$s</string>
+
+    <!-- Dashboard team admin (E6, #9) -->
+    <string name="dashboard_kpi_active">Active</string>
+    <string name="dashboard_kpi_overdue">Quá hạn</string>
+    <string name="dashboard_kpi_stuck">Kẹt</string>
+    <string name="dashboard_kpi_created_week">Vào tuần</string>
+    <string name="dashboard_kpi_resolved_week">Ra tuần</string>
+    <string name="dashboard_workload_title">Workload / người</string>
+    <string name="dashboard_workload_count">%1$d task</string>
+    <string name="dashboard_tasks_title">Task</string>
+    <string name="dashboard_unassigned">Chưa gán</string>
+    <string name="dashboard_empty">Chưa có dữ liệu dashboard</string>
+    <string name="dashboard_error">Không tải được dashboard</string>
+    <string name="dashboard_error_forbidden">Bạn không có quyền xem dashboard team</string>
+    <string name="dashboard_error_unavailable">Jira đang không phản hồi, thử lại sau</string>
+    <string name="dashboard_retry">Thử lại</string>
+    <string name="dashboard_stale">Đang hiển thị dữ liệu cũ — làm mới thất bại</string>
+    <string name="dashboard_filter_empty">Không có task nào khớp bộ lọc</string>
 </resources>

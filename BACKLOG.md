@@ -54,10 +54,10 @@ Logic nghiệp vụ giữ nguyên, chỉ đổi output layer `render_*()` → `j
 - [ ] **E5.5** Custom status overlay (8 nhãn, nhiều nhãn/task) `/set-custom-status`.
 
 ## E6 — Dashboard team admin (P0) ⇦ E0.3, E2.4
-- [ ] **E6.1** Repository + model `/api/dashboard`.
-- [ ] **E6.2** KPI cards (Active/Overdue/Kẹt/Vào-Ra tuần).
-- [ ] **E6.3** Bảng task active/new/done + pill status.
-- [ ] **E6.4** Workload/người + ngưỡng màu (≥15 quá tải / 5–14 OK / ≤4 nhẹ).
+- [x] **E6.1** Repository + model `/api/dashboard`. (#9 — network-only, cache optional theo D7)
+- [x] **E6.2** KPI cards (Active/Overdue/Kẹt/Vào-Ra tuần). (#9 — counts đếm sẵn ở `meta`, D3)
+- [x] **E6.3** Bảng task active/new/done + pill status. (#9 — filter client-side, không re-derive KPI)
+- [x] **E6.4** Workload/người + ngưỡng màu (≥15 quá tải / 5–14 OK / ≤4 nhẹ). (#9 — `level` do backend tính)
 
 ## E7 — Notification (P0) ⇦ E2
 - [ ] **E7.1** WorkManager periodic poll `/activity-feed` (60s / interval hợp lý theo battery).
