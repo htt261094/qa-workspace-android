@@ -9,9 +9,11 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.create
 import vn.baokim.qa.BuildConfig
 import vn.baokim.qa.data.net.AuthInterceptor
 import vn.baokim.qa.data.net.PatRedactingLogger
+import vn.baokim.qa.data.pat.PatApi
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -44,4 +46,8 @@ object NetworkModule {
             .client(client)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
+
+    @Provides
+    @Singleton
+    fun providePatApi(retrofit: Retrofit): PatApi = retrofit.create()
 }

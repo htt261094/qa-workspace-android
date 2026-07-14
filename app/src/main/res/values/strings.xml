@@ -3,4 +3,21 @@
     <string name="app_name">QA Workspace</string>
     <string name="login_subtitle">Đăng nhập bằng tài khoản @baokim.vn để tiếp tục</string>
     <string name="login_button">Đăng nhập với Google</string>
+
+    <!-- PAT screen (E3, #5) -->
+    <string name="pat_title">PAT cá nhân</string>
+    <string name="pat_open">Cài đặt PAT</string>
+    <string name="pat_back">Quay lại</string>
+    <string name="pat_intro">PAT (Personal Access Token) của Jira để mọi thao tác ghi (comment, đổi status, đổi hạn…) đứng tên bạn. PAT lưu mã hoá trên máy chủ, không lưu trên điện thoại.</string>
+    <string name="pat_status_saved">Đã lưu PAT trên máy chủ</string>
+    <string name="pat_status_none">Chưa có PAT</string>
+    <string name="pat_status_unknown">Không kiểm tra được trạng thái PAT</string>
+    <string name="pat_field_label">Jira PAT</string>
+    <string name="pat_field_replace_label">PAT mới (thay PAT hiện tại)</string>
+    <string name="pat_show">Hiện PAT</string>
+    <string name="pat_hide">Ẩn PAT</string>
+    <string name="pat_save">Lưu PAT</string>
+    <string name="pat_replace">Thay PAT</string>
+    <string name="pat_delete">Xoá PAT</string>
+    <string name="pat_retry">Thử lại</string>
 </resources>
