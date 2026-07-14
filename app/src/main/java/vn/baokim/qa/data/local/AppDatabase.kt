@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
  */
 @Database(
     entities = [MyWorkTaskEntity::class],
-    version = 2, // v2: my_work_tasks schema aligned to flat /api/my-work (drop assignee/project, add url)
+    version = 3, // v3: + customs (custom-status slugs) on my_work_tasks (E5.5)
     exportSchema = false,
 )
 abstract class AppDatabase : RoomDatabase() {

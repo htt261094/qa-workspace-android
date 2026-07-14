@@ -67,6 +67,7 @@ data class DashboardTask(
     val stuck: Boolean,
     val isNew: Boolean,
     val url: String?,
+    val customs: List<String> = emptyList(), // custom-status slugs, seeds the detail overlay (E5.5)
 )
 
 /**

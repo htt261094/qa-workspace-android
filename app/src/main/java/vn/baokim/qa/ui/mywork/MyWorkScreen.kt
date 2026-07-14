@@ -51,14 +51,14 @@ import vn.baokim.qa.ui.theme.QaWorkspaceTheme
  * shell preview (which hosts MyWork as the start destination) rendering.
  */
 @Composable
-fun MyWorkScreen(modifier: Modifier = Modifier) {
+fun MyWorkScreen(onTaskClick: (MyWorkTask) -> Unit = {}, modifier: Modifier = Modifier) {
     if (LocalInspectionMode.current) {
-        MyWorkContent(MyWorkUiState(loading = false, buckets = SAMPLE_BUCKETS), {}, {}, modifier)
+        MyWorkContent(MyWorkUiState(loading = false, buckets = SAMPLE_BUCKETS), {}, {}, {}, modifier)
         return
     }
     val viewModel: MyWorkViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
-    MyWorkContent(state, viewModel::onPullRefresh, viewModel::retry, modifier)
+    MyWorkContent(state, viewModel::onPullRefresh, viewModel::retry, onTaskClick, modifier)
 }
 
 /**
@@ -73,6 +73,7 @@ fun MyWorkContent(
     state: MyWorkUiState,
     onRefresh: () -> Unit,
     onRetry: () -> Unit,
+    onTaskClick: (MyWorkTask) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     PullToRefreshBox(
@@ -91,13 +92,17 @@ fun MyWorkContent(
 
             state.isEmpty -> CenterMessage(text = stringResource(R.string.mywork_empty))
 
-            else -> TaskList(state.buckets, staleError = state.error)
+            else -> TaskList(state.buckets, staleError = state.error, onTaskClick = onTaskClick)
         }
     }
 }
 
 @Composable
-private fun TaskList(buckets: List<TaskBucket>, staleError: Boolean) {
+private fun TaskList(
+    buckets: List<TaskBucket>,
+    staleError: Boolean,
+    onTaskClick: (MyWorkTask) -> Unit,
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -123,14 +128,17 @@ private fun TaskList(buckets: List<TaskBucket>, staleError: Boolean) {
                     modifier = Modifier.padding(top = 8.dp, bottom = 2.dp),
                 )
             }
-            items(bucket.tasks, key = { it.key }) { task -> TaskCard(task) }
+            items(bucket.tasks, key = { it.key }) { task -> TaskCard(task, onTaskClick) }
         }
     }
 }
 
 @Composable
-private fun TaskCard(task: MyWorkTask) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+private fun TaskCard(task: MyWorkTask, onClick: (MyWorkTask) -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = { onClick(task) },
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
                 text = task.summary.ifBlank { task.key },

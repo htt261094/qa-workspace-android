@@ -83,4 +83,5 @@ private fun DashTaskDto.toDomain(): DashboardTask = DashboardTask(
     stuck = stuck,
     isNew = isNew,
     url = jiraUrl,
+    customs = customs,
 )

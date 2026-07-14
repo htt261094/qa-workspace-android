@@ -16,14 +16,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import vn.baokim.qa.R
 import vn.baokim.qa.data.auth.Role
 import vn.baokim.qa.ui.dashboard.DashboardScreen
+import vn.baokim.qa.ui.detail.TaskDetailScreen
 import vn.baokim.qa.ui.mywork.MyWorkScreen
+import vn.baokim.qa.ui.navigation.DetailArgs
 import vn.baokim.qa.ui.navigation.Routes
 import vn.baokim.qa.ui.navigation.TopDestination
 import vn.baokim.qa.ui.pat.PatScreen
@@ -84,14 +88,32 @@ fun QaApp(role: Role) {
             // Dashboard route is registered only for roles that may see it — no dead
             // deep-link into an admin screen for QA/dev (its tab is hidden anyway).
             if (role.canSeeDashboard) {
-                composable(TopDestination.Dashboard.route) { DashboardScreen() }
+                composable(TopDestination.Dashboard.route) {
+                    DashboardScreen(onTaskClick = { task ->
+                        navController.navigate(DetailArgs.route(task.key, task.customs))
+                    })
+                }
             }
-            composable(TopDestination.MyWork.route) { MyWorkScreen() }
+            composable(TopDestination.MyWork.route) {
+                MyWorkScreen(onTaskClick = { task ->
+                    navController.navigate(DetailArgs.route(task.key, task.customs))
+                })
+            }
             composable(TopDestination.Bugs.route) {
                 val suffix = if (role.bugLogReadOnly) " · read-only" else ""
                 PlaceholderScreen("Bug Log (E8)$suffix")
             }
             composable(Routes.PAT) { PatScreen(onBack = { navController.popBackStack() }) }
+            composable(
+                route = DetailArgs.ROUTE,
+                arguments = listOf(
+                    navArgument(DetailArgs.KEY) { type = NavType.StringType },
+                    navArgument(DetailArgs.CUSTOMS) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                ),
+            ) { TaskDetailScreen(onBack = { navController.popBackStack() }) }
         }
     }
 }

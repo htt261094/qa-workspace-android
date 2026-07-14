@@ -45,4 +45,30 @@
     <string name="dashboard_retry">Thử lại</string>
     <string name="dashboard_stale">Đang hiển thị dữ liệu cũ — làm mới thất bại</string>
     <string name="dashboard_filter_empty">Không có task nào khớp bộ lọc</string>
+
+    <!-- Chi tiết task (E5, #10) -->
+    <string name="detail_back">Quay lại</string>
+    <string name="detail_retry">Thử lại</string>
+    <string name="detail_error">Không tải được chi tiết task</string>
+    <string name="detail_loading">Đang tải…</string>
+    <string name="detail_assignee">Người phụ trách</string>
+    <string name="detail_devs">Dev</string>
+    <string name="detail_updated">Cập nhật</string>
+    <string name="detail_due">Hạn</string>
+    <string name="detail_no_due">Chưa đặt hạn</string>
+    <string name="detail_edit_due">Đổi hạn</string>
+    <string name="detail_clear_due">Xoá hạn</string>
+    <string name="detail_save">Lưu</string>
+    <string name="detail_cancel">Huỷ</string>
+    <string name="detail_change_status">Đổi status</string>
+    <string name="detail_no_transitions">Không có bước chuyển nào khả dụng</string>
+    <string name="detail_custom_title">Tình trạng nội bộ</string>
+    <string name="detail_description">Mô tả</string>
+    <string name="detail_bugs">Bug đã link (%1$d)</string>
+    <string name="detail_testcases">Bộ test case (%1$d)</string>
+    <string name="detail_tc_counts">Pass %1$d · Fail %2$d · %3$d case</string>
+    <string name="detail_comments">Comment (%1$d)</string>
+    <string name="detail_no_comments">Chưa có comment nào</string>
+    <string name="detail_comment_hint">Viết comment…</string>
+    <string name="detail_send_comment">Gửi comment</string>
 </resources>

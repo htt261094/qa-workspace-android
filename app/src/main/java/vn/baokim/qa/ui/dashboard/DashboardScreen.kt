@@ -57,14 +57,14 @@ import vn.baokim.qa.ui.theme.QaWorkspaceTheme
  * inspection mode (no ViewModelStoreOwner under layoutlib) so previews render sample data.
  */
 @Composable
-fun DashboardScreen(modifier: Modifier = Modifier) {
+fun DashboardScreen(onTaskClick: (DashboardTask) -> Unit = {}, modifier: Modifier = Modifier) {
     if (LocalInspectionMode.current) {
-        DashboardContent(DashboardUiState(loading = false, data = SAMPLE), {}, {}, {}, modifier)
+        DashboardContent(DashboardUiState(loading = false, data = SAMPLE), {}, {}, {}, {}, modifier)
         return
     }
     val viewModel: DashboardViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
-    DashboardContent(state, viewModel::onPullRefresh, viewModel::retry, viewModel::onFilterSelected, modifier)
+    DashboardContent(state, viewModel::onPullRefresh, viewModel::retry, viewModel::onFilterSelected, onTaskClick, modifier)
 }
 
 /**
@@ -79,6 +79,7 @@ fun DashboardContent(
     onRefresh: () -> Unit,
     onRetry: () -> Unit,
     onFilterSelected: (DashboardFilter) -> Unit,
+    onTaskClick: (DashboardTask) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     PullToRefreshBox(
@@ -97,13 +98,17 @@ fun DashboardContent(
 
             state.isEmpty -> CenterMessage(text = stringResource(R.string.dashboard_empty))
 
-            else -> DashboardBody(state, onFilterSelected)
+            else -> DashboardBody(state, onFilterSelected, onTaskClick)
         }
     }
 }
 
 @Composable
-private fun DashboardBody(state: DashboardUiState, onFilterSelected: (DashboardFilter) -> Unit) {
+private fun DashboardBody(
+    state: DashboardUiState,
+    onFilterSelected: (DashboardFilter) -> Unit,
+    onTaskClick: (DashboardTask) -> Unit,
+) {
     val filtered = state.filteredTasks
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -140,7 +145,7 @@ private fun DashboardBody(state: DashboardUiState, onFilterSelected: (DashboardF
                 )
             }
         } else {
-            items(filtered, key = { it.key }) { TaskCard(it) }
+            items(filtered, key = { it.key }) { TaskCard(it, onTaskClick) }
         }
     }
 }
@@ -256,8 +261,11 @@ private fun FilterRow(state: DashboardUiState, onFilterSelected: (DashboardFilte
 }
 
 @Composable
-private fun TaskCard(task: DashboardTask) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+private fun TaskCard(task: DashboardTask, onClick: (DashboardTask) -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = { onClick(task) },
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
                 text = task.summary.ifBlank { task.key },

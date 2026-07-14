@@ -60,6 +60,7 @@ data class DashTaskDto(
     val due: String? = null,        // ISO yyyy-MM-dd, or null
     val assignee: AssigneeDto? = null,
     val jiraUrl: String? = null,
+    val customs: List<String> = emptyList(), // internal custom-status slugs (E5.5 overlay seed)
 )
 
 @Serializable
