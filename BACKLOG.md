@@ -60,9 +60,9 @@ Logic nghiệp vụ giữ nguyên, chỉ đổi output layer `render_*()` → `j
 - [x] **E6.4** Workload/người + ngưỡng màu (≥15 quá tải / 5–14 OK / ≤4 nhẹ). (#9 — `level` do backend tính)
 
 ## E7 — Notification (P0) ⇦ E2
-- [ ] **E7.1** WorkManager periodic poll `/activity-feed` (60s / interval hợp lý theo battery).
-- [ ] **E7.2** Diff activity → NotificationManager push (ẩn noti do chính mình — backend đã lo).
-- [ ] **E7.3** `/dismiss` khi user đọc noti. Xin quyền POST_NOTIFICATIONS (Android 13+).
+- [x] **E7.1** WorkManager periodic poll `/activity-feed`. (#11 — interval 15' = min WorkManager, D9)
+- [x] **E7.2** Diff activity → NotificationManager push (ẩn noti do chính mình — backend đã lo). (#11 — dedup local `NotifiedStore`)
+- [x] **E7.3** `/dismiss` khi user đọc noti. Xin quyền POST_NOTIFICATIONS (Android 13+). (#11 — tap + swipe → DismissWorker)
 
 ## E8 — Bug Log + analytics (P1) ⇦ E0.4
 - [ ] **E8.1** Repository + model `/api/bug-log` + `/api/analytics`.

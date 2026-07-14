@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.create
 import vn.baokim.qa.BuildConfig
+import vn.baokim.qa.data.activity.ActivityApi
 import vn.baokim.qa.data.dashboard.DashboardApi
 import vn.baokim.qa.data.detail.DetailApi
 import vn.baokim.qa.data.mywork.MyWorkApi
@@ -65,4 +66,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideDetailApi(retrofit: Retrofit): DetailApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideActivityApi(retrofit: Retrofit): ActivityApi = retrofit.create()
 }

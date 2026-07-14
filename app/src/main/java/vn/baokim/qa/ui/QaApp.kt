@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,10 +36,23 @@ import vn.baokim.qa.ui.screens.PlaceholderScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QaApp(role: Role) {
+fun QaApp(
+    role: Role,
+    deepLinkTaskKey: String? = null,
+    onDeepLinkConsumed: () -> Unit = {},
+) {
     val navController = rememberNavController()
     // E2.4: only the tabs this role may see. Start (MyWork) is visible to every role.
     val tabs = TopDestination.entries.filter { it.isVisibleTo(role) }
+
+    // Notification tap (E7.3) → open the task. The feed carries no custom-status labels, so the
+    // detail overlay seeds empty (defaultValue "") and re-syncs from the server on first toggle (D8).
+    LaunchedEffect(deepLinkTaskKey) {
+        if (deepLinkTaskKey != null) {
+            navController.navigate(DetailArgs.route(deepLinkTaskKey, emptyList()))
+            onDeepLinkConsumed()
+        }
+    }
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination

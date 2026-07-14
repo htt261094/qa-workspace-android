@@ -71,4 +71,8 @@
     <string name="detail_no_comments">Chưa có comment nào</string>
     <string name="detail_comment_hint">Viết comment…</string>
     <string name="detail_send_comment">Gửi comment</string>
+
+    <!-- Notification (E7, #11) -->
+    <string name="notif_channel_activity">Hoạt động task</string>
+    <string name="notif_channel_activity_desc">Cập nhật trên các task bạn theo dõi (comment, đổi status, đổi hạn…)</string>
 </resources>
