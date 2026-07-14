@@ -8,8 +8,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Encrypted at-rest storage for the user's personal Jira PAT (spec §7 OPSEC).
- * Backed by Android Keystore via EncryptedSharedPreferences. Never logged.
+ * Encrypted at-rest storage for sensitive credentials (spec §7 OPSEC):
+ * the server-brokered session Bearer token (D2 hướng C) and the user's
+ * personal Jira PAT. Backed by Android Keystore via EncryptedSharedPreferences.
+ * Never logged.
  */
 @Singleton
 class SecurePrefs @Inject constructor(@ApplicationContext context: Context) {
@@ -27,6 +29,13 @@ class SecurePrefs @Inject constructor(@ApplicationContext context: Context) {
         )
     }
 
+    /** HMAC self-contained session token (`make_session_token`), sent as `Authorization: Bearer`. */
+    var sessionToken: String?
+        get() = prefs.getString(KEY_SESSION, null)
+        set(value) = prefs.edit().apply {
+            if (value.isNullOrBlank()) remove(KEY_SESSION) else putString(KEY_SESSION, value)
+        }.apply()
+
     var pat: String?
         get() = prefs.getString(KEY_PAT, null)
         set(value) = prefs.edit().apply {
@@ -39,6 +48,7 @@ class SecurePrefs @Inject constructor(@ApplicationContext context: Context) {
 
     private companion object {
         const val FILE_NAME = "qa_secure_prefs"
+        const val KEY_SESSION = "session_token"
         const val KEY_PAT = "jira_pat"
     }
 }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">QA Workspace</string>
+    <string name="login_subtitle">Đăng nhập bằng tài khoản @baokim.vn để tiếp tục</string>
+    <string name="login_button">Đăng nhập với Google</string>
 </resources>

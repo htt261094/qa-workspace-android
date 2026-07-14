@@ -10,8 +10,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import vn.baokim.qa.BuildConfig
+import vn.baokim.qa.data.net.AuthInterceptor
 import vn.baokim.qa.data.net.PatRedactingLogger
-import vn.baokim.qa.data.net.SessionCookieJar
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -28,9 +28,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(cookieJar: SessionCookieJar): OkHttpClient =
+    fun provideOkHttp(authInterceptor: AuthInterceptor): OkHttpClient =
         OkHttpClient.Builder()
-            .cookieJar(cookieJar) // D2 option A; swap for Authorization interceptor if Bearer chosen
+            .addInterceptor(authInterceptor) // D2 hướng C: Bearer session token (no cookie jar)
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .apply { if (BuildConfig.DEBUG) addInterceptor(PatRedactingLogger.create()) }
