@@ -215,16 +215,16 @@ private val SAMPLE_BUCKETS = listOf(
         key = "doing", label = "Đang làm",
         tasks = listOf(
             MyWorkTask("PSIT1H26-123", "[QA] Test luồng thanh toán ví", "In Progress",
-                StatusCategory.INDETERMINATE, "2026-07-18", "thanhht1", "PSIT1H26", null, false),
+                StatusCategory.INDETERMINATE, "2026-07-18", false, null),
             MyWorkTask("DA51H26-88", "[QA] Regression đăng nhập", "PENDING",
-                StatusCategory.INDETERMINATE, "2026-07-10", "thanhht1", "DA51H26", null, true),
+                StatusCategory.INDETERMINATE, "2026-07-10", true, null),
         ),
     ),
     TaskBucket(
         key = "todo", label = "TO DO",
         tasks = listOf(
             MyWorkTask("DA61H26-4", "[QA] Viết test case OTP", "TO DO",
-                StatusCategory.NEW, null, "thanhht1", "DA61H26", null, false),
+                StatusCategory.NEW, null, false, null),
         ),
     ),
 )

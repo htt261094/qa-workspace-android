@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 /**
  * Room cache of the latest `/api/my-work` snapshot (E4.4, #7) so the list shows instantly
  * offline / on cold start before the network refresh lands. One device = one logged-in
- * user, so a single flat table is enough; [bucketOrder]/[taskOrder] preserve the exact
- * server ordering (D3 — the app never re-sorts) when regrouping back into buckets.
+ * user, so a single flat table is enough. Rows are stored already grouped+sorted into
+ * buckets ([bucketOrder]/[taskOrder]) so reads regroup without re-running bucket logic.
  *
- * No secrets live here: only public Jira task metadata, never the PAT/token (OPSEC §7).
+ * No secrets here: only public Jira task metadata, never the PAT/token (OPSEC §7).
  */
 @Entity(tableName = "my_work_tasks")
 data class MyWorkTaskEntity(
@@ -22,8 +22,6 @@ data class MyWorkTaskEntity(
     val status: String,
     val statusCategory: String,
     val dueDate: String?,
-    val assignee: String?,
-    val project: String?,
-    val url: String?,
     val overdue: Boolean,
+    val url: String?,
 )
