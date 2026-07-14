@@ -20,7 +20,11 @@ Xem `BACKLOG.md` — 11 epic, thứ tự thực thi ở cuối file.
 
 ## Decisions
 - **D1 (kiến trúc)**: Hướng 2 — app là client backend, không gọi Jira/KV/Drive trực tiếp. Lý do: Jira sau VPN nội bộ; nhét VPN vào điện thoại UX tệ + phụ thuộc IT. Secret hạ tầng không rời host.
-- **D2 (auth)**: CHƯA CHỐT. A = giữ session cookie HMAC + OkHttp CookieJar; B = thêm Bearer token cho mobile (recommend B: sạch, dễ debug, backend vốn đã phải thêm JSON endpoints). Chặn E2+. → cập nhật khi chốt.
+- **D2 (auth) — CHỐT: Hướng C, server-brokered token handoff.** App KHÔNG tự chạy OAuth (không cầm client_secret). Server làm full OAuth (như web) rồi giao chính token HMAC self-contained hiện có (`make_session_token` = `b64(json{email,iat,exp}).sig`) cho app qua redirect. App gửi `Authorization: Bearer <token>`; backend `_user_email()` đọc Bearer → `email_from_session()`. Tái dùng nguyên crypto, không hệ token mới. Google console không đổi.
+  - **D2a — transport = App Links (https verified), KHÔNG raw custom scheme.** Raw scheme `vn.baokim.qa://` bị app khác cướp được; App Links verify qua `/.well-known/assetlinks.json` trên `baokim-qa.com`. Token đi trong URL **fragment** `#token=` (không vào server access log phía app).
+  - Backend delta (4 chỗ): `config.py` (+APP_REDIRECT/APP_LINK_HOST), `auth.py` (state mang cờ `app` + `state_data()`), `routes/oauth.py` (`_do_login` nhận `?app=1`, `_do_callback` rẽ nhánh app→redirect token), `qa_dashboard.py::_user_email` (đọc Bearer trước cookie).
+  - App: Custom Tabs + intent-filter App Links (KHÔNG cần AppAuth-Android vì server broker). NetworkModule swap `cookieJar(...)` → AuthInterceptor gắn Bearer.
+  - Sliding refresh app (optional): response header `X-Session-Token` khi token quá nửa đời; else 401 → re-login.
 - **D3 (nguồn chân lý)**: Logic đang ở JS client (`computeBacklog`, dedup fingerprint, analytics) đẩy về backend trả JSON — tránh parity Python↔Kotlin. App chỉ hiển thị.
 - **D4 (build)**: Version catalog (`gradle/libs.versions.toml`) làm nguồn version duy nhất. Wrapper jar commit vào repo (bản chính thức v8.10.2).
 
