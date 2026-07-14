@@ -41,10 +41,10 @@ Logic nghiệp vụ giữ nguyên, chỉ đổi output layer `render_*()` → `j
 - [ ] **E3.2** Lưu PAT vào EncryptedSharedPreferences; redact trong log/crash (OPSEC mục 7).
 
 ## E4 — "Việc của tôi" (P0) ⇦ E0.2, E2, E3
-- [ ] **E4.1** Repository + model cho `/api/my-work`.
-- [ ] **E4.2** UI list task (Active/Đang làm/TO DO/Done), pill status, sort theo due.
-- [ ] **E4.3** Pull-to-refresh (F5 = pull tươi) + loading/error state.
-- [ ] **E4.4** Room cache offline cho list gần nhất.
+- [x] **E4.1** Repository + model cho `/api/my-work`. (#7)
+- [x] **E4.2** UI list task (Active/Đang làm/TO DO/Done), pill status, sort theo due. (#7 — buckets + sort do backend quyết, app render theo thứ tự trả về, D3)
+- [x] **E4.3** Pull-to-refresh (F5 = pull tươi) + loading/error state. (#7)
+- [x] **E4.4** Room cache offline cho list gần nhất. (#7)
 
 ## E5 — Chi tiết task (P0) ⇦ E4
 - [ ] **E5.1** Màn detail: `/issue-comments` → mô tả + comment history.

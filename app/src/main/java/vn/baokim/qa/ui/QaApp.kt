@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import vn.baokim.qa.R
 import vn.baokim.qa.data.auth.Role
+import vn.baokim.qa.ui.mywork.MyWorkScreen
 import vn.baokim.qa.ui.navigation.Routes
 import vn.baokim.qa.ui.navigation.TopDestination
 import vn.baokim.qa.ui.pat.PatScreen
@@ -84,7 +85,7 @@ fun QaApp(role: Role) {
             if (role.canSeeDashboard) {
                 composable(TopDestination.Dashboard.route) { PlaceholderScreen("Dashboard team (E6)") }
             }
-            composable(TopDestination.MyWork.route) { PlaceholderScreen("Việc của tôi (E4)") }
+            composable(TopDestination.MyWork.route) { MyWorkScreen() }
             composable(TopDestination.Bugs.route) {
                 val suffix = if (role.bugLogReadOnly) " · read-only" else ""
                 PlaceholderScreen("Bug Log (E8)$suffix")
