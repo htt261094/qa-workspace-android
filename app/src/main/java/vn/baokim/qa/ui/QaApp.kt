@@ -14,13 +14,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import vn.baokim.qa.data.auth.Role
 import vn.baokim.qa.ui.navigation.TopDestination
 import vn.baokim.qa.ui.screens.PlaceholderScreen
 
 @Composable
-fun QaApp() {
+fun QaApp(role: Role) {
     val navController = rememberNavController()
-    val tabs = TopDestination.entries
+    // E2.4: only the tabs this role may see. Start (MyWork) is visible to every role.
+    val tabs = TopDestination.entries.filter { it.isVisibleTo(role) }
 
     Scaffold(
         bottomBar = {
@@ -50,9 +52,16 @@ fun QaApp() {
             startDestination = TopDestination.MyWork.route,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(TopDestination.Dashboard.route) { PlaceholderScreen("Dashboard team (E6)") }
+            // Dashboard route is registered only for roles that may see it — no dead
+            // deep-link into an admin screen for QA/dev (its tab is hidden anyway).
+            if (role.canSeeDashboard) {
+                composable(TopDestination.Dashboard.route) { PlaceholderScreen("Dashboard team (E6)") }
+            }
             composable(TopDestination.MyWork.route) { PlaceholderScreen("Việc của tôi (E4)") }
-            composable(TopDestination.Bugs.route) { PlaceholderScreen("Bug Log (E8)") }
+            composable(TopDestination.Bugs.route) {
+                val suffix = if (role.bugLogReadOnly) " · read-only" else ""
+                PlaceholderScreen("Bug Log (E8)$suffix")
+            }
         }
     }
 }

@@ -28,7 +28,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             QaWorkspaceTheme {
                 val loggedIn by authManager.isLoggedIn.collectAsState()
-                if (loggedIn) QaApp() else LoginScreen()
+                if (loggedIn) {
+                    val role by authManager.role.collectAsState()
+                    QaApp(role)
+                } else {
+                    LoginScreen()
+                }
             }
         }
     }

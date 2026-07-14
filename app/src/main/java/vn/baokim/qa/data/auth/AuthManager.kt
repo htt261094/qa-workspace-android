@@ -23,23 +23,32 @@ class AuthManager @Inject constructor(
     private val _isLoggedIn = MutableStateFlow(securePrefs.sessionToken != null)
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn.asStateFlow()
 
+    /** Access role derived from the token's email claim (E2.4). Drives which tabs/actions show. */
+    private val _role = MutableStateFlow(roleFor(securePrefs.sessionToken))
+    val role: StateFlow<Role> = _role.asStateFlow()
+
     /** Current Bearer token, or null when logged out. Read by [AuthInterceptor] only. */
     val token: String? get() = securePrefs.sessionToken
 
     /** App Link delivered a fresh token from the server broker (`/app/auth#token=`). */
     fun onTokenReceived(token: String) {
         securePrefs.sessionToken = token
+        _role.value = roleFor(token)
         _isLoggedIn.value = true
     }
 
     /** Sliding refresh — server rotated the token past half-life (X-Session-Token header). */
     fun refreshToken(token: String) {
         securePrefs.sessionToken = token
+        _role.value = roleFor(token) // same user, but re-derive in case the payload changes
     }
 
     /** Session expired (401) or explicit logout → drop token, back to login. Keeps the PAT. */
     fun logout() {
         securePrefs.sessionToken = null
+        _role.value = Role.DEFAULT
         _isLoggedIn.value = false
     }
+
+    private fun roleFor(token: String?): Role = Role.fromEmail(SessionToken.emailOf(token))
 }
