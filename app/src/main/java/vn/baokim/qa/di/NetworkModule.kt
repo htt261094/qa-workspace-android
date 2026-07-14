@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.create
 import vn.baokim.qa.BuildConfig
+import vn.baokim.qa.data.mywork.MyWorkApi
 import vn.baokim.qa.data.net.AuthInterceptor
 import vn.baokim.qa.data.net.PatRedactingLogger
 import vn.baokim.qa.data.pat.PatApi
@@ -50,4 +51,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providePatApi(retrofit: Retrofit): PatApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideMyWorkApi(retrofit: Retrofit): MyWorkApi = retrofit.create()
 }

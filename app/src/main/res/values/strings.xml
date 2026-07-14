@@ -20,4 +20,11 @@
     <string name="pat_replace">Thay PAT</string>
     <string name="pat_delete">Xoá PAT</string>
     <string name="pat_retry">Thử lại</string>
+
+    <!-- Việc của tôi (E4, #7) -->
+    <string name="mywork_empty">Không có task nào của bạn</string>
+    <string name="mywork_error">Không tải được danh sách task</string>
+    <string name="mywork_retry">Thử lại</string>
+    <string name="mywork_stale">Đang hiển thị dữ liệu offline — làm mới thất bại</string>
+    <string name="mywork_due">Hạn %1$s</string>
 </resources>
