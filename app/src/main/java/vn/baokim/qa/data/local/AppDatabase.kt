@@ -8,10 +8,11 @@ import androidx.room.RoomDatabase
  * PAT or session token, which stay in EncryptedSharedPreferences (OPSEC §7).
  */
 @Database(
-    entities = [MyWorkTaskEntity::class],
-    version = 3, // v3: + customs (custom-status slugs) on my_work_tasks (E5.5)
+    entities = [MyWorkTaskEntity::class, BugEntity::class],
+    version = 4, // v4: + bug_log table (Bug Log offline cache, E8.6)
     exportSchema = false,
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun myWorkDao(): MyWorkDao
+    abstract fun bugDao(): BugDao
 }

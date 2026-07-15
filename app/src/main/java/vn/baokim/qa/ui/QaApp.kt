@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import vn.baokim.qa.R
 import vn.baokim.qa.data.auth.Role
+import vn.baokim.qa.ui.buglog.BugsScreen
 import vn.baokim.qa.ui.dashboard.DashboardScreen
 import vn.baokim.qa.ui.detail.TaskDetailScreen
 import vn.baokim.qa.ui.mywork.MyWorkScreen
@@ -32,7 +33,6 @@ import vn.baokim.qa.ui.navigation.DetailArgs
 import vn.baokim.qa.ui.navigation.Routes
 import vn.baokim.qa.ui.navigation.TopDestination
 import vn.baokim.qa.ui.pat.PatScreen
-import vn.baokim.qa.ui.screens.PlaceholderScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,8 +114,10 @@ fun QaApp(
                 })
             }
             composable(TopDestination.Bugs.route) {
-                val suffix = if (role.bugLogReadOnly) " · read-only" else ""
-                PlaceholderScreen("Bug Log (E8)$suffix")
+                BugsScreen(
+                    role = role,
+                    onTaskClick = { key -> navController.navigate(DetailArgs.route(key, emptyList())) },
+                )
             }
             composable(Routes.PAT) { PatScreen(onBack = { navController.popBackStack() }) }
             composable(

@@ -43,6 +43,18 @@
             android:name=".data.notify.DismissReceiver"
             android:exported="false" />
 
+        <!-- Exported bug-log .xlsx lives in cache/exports and is shared via a chooser (E8.5).
+             Grants are per-Intent (FLAG_GRANT_READ_URI_PERMISSION); nothing is world-readable. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <!-- On-demand WorkManager (E7): disable the default startup initializer so the app's
              Configuration.Provider (QaApp) supplies the HiltWorkerFactory. -->
         <provider

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FileProvider paths for sharing exported bug-log .xlsx files (E8.5).
+     Only cache/exports is exposed — see BugLogRepository.export(). -->
+<paths>
+    <cache-path name="exports" path="exports/" />
+</paths>

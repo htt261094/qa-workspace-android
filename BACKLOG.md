@@ -65,12 +65,12 @@ Logic nghiệp vụ giữ nguyên, chỉ đổi output layer `render_*()` → `j
 - [x] **E7.3** `/dismiss` khi user đọc noti. Xin quyền POST_NOTIFICATIONS (Android 13+). (#11 — tap + swipe → DismissWorker)
 
 ## E8 — Bug Log + analytics (P1) ⇦ E0.4
-- [ ] **E8.1** Repository + model `/api/bug-log` + `/api/analytics`.
-- [ ] **E8.2** Bảng bug theo tháng + filter tester/dev.
-- [ ] **E8.3** Chart analytics (số bug / Valid Bug Rate / Reopen / Tồn đọng T-1) — Vico hoặc Compose canvas.
-- [ ] **E8.4** Link bug↔task `/link-task`, `/tc-link-task`.
-- [ ] **E8.5** Export Excel `/export-bug-log` (download → xin quyền, xem OPSEC).
-- [ ] **E8.6** Room cache bug log offline.
+- [x] **E8.1** Repository + model `/api/bug-log` + `/api/analytics`. (#13 — D10; bug-log offline-first, analytics network-only + dev-403)
+- [x] **E8.2** Bảng bug theo tháng + filter tester/dev. (#13 — tab tháng client-side, filter tester/dev/link)
+- [x] **E8.3** Chart analytics (số bug / Valid Bug Rate / Reopen / Tồn đọng T-1). (#13 — Compose-drawn bars, KPI cards; D10 KHÔNG dùng Vico)
+- [x] **E8.4** Link bug↔task `/link-task`. (#13 — nhập tay task key + gỡ chip; task-search picker để E10, `/tc-link-task` chưa làm)
+- [x] **E8.5** Export Excel `/export-bug-log`. (#13 — stream .xlsx → FileProvider → ACTION_SEND chooser, không cần quyền storage)
+- [x] **E8.6** Room cache bug log offline. (#13 — bảng `bug_log` flat, replace-all, AppDatabase v4)
 
 ## E9 — Tạo QA sub-task (P1) ⇦ E5
 - [ ] **E9.1** UI chọn Task-PTSP cha (`/search-parents`) + auto-fill `[QA] ` + Leader Hiền.
