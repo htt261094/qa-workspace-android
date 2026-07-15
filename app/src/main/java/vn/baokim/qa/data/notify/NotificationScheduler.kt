@@ -27,16 +27,29 @@ class NotificationScheduler @Inject constructor(
 
     private val workManager get() = WorkManager.getInstance(context)
 
-    /** Enqueue the periodic poll (idempotent — KEEP preserves an already-scheduled cycle). */
+    /**
+     * Enqueue the periodic poll (idempotent — KEEP preserves an already-scheduled cycle) plus a
+     * one-time kick that runs as soon as constraints allow. Periodic work is deferred within its
+     * first 15-min window, so without the immediate kick the very first notification could take up
+     * to 15 min after login — the kick surfaces it in seconds (and makes the feature observable in
+     * a quick test).
+     */
     fun start() {
-        val request = PeriodicWorkRequestBuilder<ActivityPollWorker>(POLL_MINUTES, TimeUnit.MINUTES)
-            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+        val netConstraint = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val periodic = PeriodicWorkRequestBuilder<ActivityPollWorker>(POLL_MINUTES, TimeUnit.MINUTES)
+            .setConstraints(netConstraint)
             .build()
-        workManager.enqueueUniquePeriodicWork(POLL_WORK, ExistingPeriodicWorkPolicy.KEEP, request)
+        workManager.enqueueUniquePeriodicWork(POLL_WORK, ExistingPeriodicWorkPolicy.KEEP, periodic)
+
+        val kick = OneTimeWorkRequestBuilder<ActivityPollWorker>()
+            .setConstraints(netConstraint)
+            .build()
+        workManager.enqueueUniqueWork(POLL_KICK_WORK, ExistingWorkPolicy.REPLACE, kick)
     }
 
     fun stop() {
         workManager.cancelUniqueWork(POLL_WORK)
+        workManager.cancelUniqueWork(POLL_KICK_WORK)
     }
 
     /** Mark one activity read (tap or swipe). Retries on network failure. */
@@ -52,6 +65,7 @@ class NotificationScheduler @Inject constructor(
 
     private companion object {
         const val POLL_WORK = "activity-poll"
+        const val POLL_KICK_WORK = "activity-poll-kick"
         const val DISMISS_WORK = "activity-dismiss"
         const val POLL_MINUTES = 15L // WorkManager periodic minimum (D9)
     }
