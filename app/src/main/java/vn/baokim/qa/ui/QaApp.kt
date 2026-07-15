@@ -2,6 +2,7 @@ package vn.baokim.qa.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddTask
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,6 +34,7 @@ import vn.baokim.qa.ui.navigation.DetailArgs
 import vn.baokim.qa.ui.navigation.Routes
 import vn.baokim.qa.ui.navigation.TopDestination
 import vn.baokim.qa.ui.pat.PatScreen
+import vn.baokim.qa.ui.subtask.CreateSubtaskScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,6 +67,12 @@ fun QaApp(
                 TopAppBar(
                     title = { Text(stringResource(R.string.app_name)) },
                     actions = {
+                        // Create QA sub-task (E9, #14) — DEV is read-only (D5), so gate the entry.
+                        if (role.canWrite) {
+                            IconButton(onClick = { navController.navigate(Routes.CREATE_SUBTASK) }) {
+                                Icon(Icons.Filled.AddTask, contentDescription = stringResource(R.string.subtask_open))
+                            }
+                        }
                         IconButton(onClick = { navController.navigate(Routes.PAT) }) {
                             Icon(Icons.Filled.VpnKey, contentDescription = stringResource(R.string.pat_open))
                         }
@@ -120,6 +128,12 @@ fun QaApp(
                 )
             }
             composable(Routes.PAT) { PatScreen(onBack = { navController.popBackStack() }) }
+            // Create QA sub-task registered only for roles that may write (DEV can't, D5).
+            if (role.canWrite) {
+                composable(Routes.CREATE_SUBTASK) {
+                    CreateSubtaskScreen(onBack = { navController.popBackStack() })
+                }
+            }
             composable(
                 route = DetailArgs.ROUTE,
                 arguments = listOf(
