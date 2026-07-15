@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import vn.baokim.qa.data.local.AppDatabase
+import vn.baokim.qa.data.local.BugDao
 import vn.baokim.qa.data.local.MyWorkDao
 import javax.inject.Singleton
 
@@ -24,4 +25,7 @@ object DatabaseModule {
 
     @Provides
     fun provideMyWorkDao(db: AppDatabase): MyWorkDao = db.myWorkDao()
+
+    @Provides
+    fun provideBugDao(db: AppDatabase): BugDao = db.bugDao()
 }

@@ -72,6 +72,62 @@
     <string name="detail_comment_hint">Viết comment…</string>
     <string name="detail_send_comment">Gửi comment</string>
 
+    <!-- Bug Log + analytics (E8, #13) -->
+    <string name="bugs_tab_log">Bug Log</string>
+    <string name="bugs_tab_analytics">Analytics</string>
+    <string name="buglog_empty">Chưa có bug nào</string>
+    <string name="buglog_error">Không tải được bug log</string>
+    <string name="buglog_retry">Thử lại</string>
+    <string name="buglog_stale">Đang hiển thị dữ liệu offline — làm mới thất bại</string>
+    <string name="buglog_synced">Đồng bộ: %1$s</string>
+    <string name="buglog_export">Export Excel</string>
+    <string name="buglog_count">%1$d bug</string>
+    <string name="buglog_all_testers">Tất cả tester</string>
+    <string name="buglog_all_devs">Tất cả dev</string>
+    <string name="buglog_link_all">Liên kết: tất cả</string>
+    <string name="buglog_link_linked">Đã liên kết</string>
+    <string name="buglog_link_unlinked">Chưa liên kết</string>
+    <string name="buglog_filter_empty">Không có bug nào khớp bộ lọc</string>
+    <string name="buglog_no_value">—</string>
+    <string name="buglog_link_title">Liên kết Task</string>
+    <string name="buglog_link_hint">Task key (VD: PSIT1H26-123)</string>
+    <string name="buglog_link_add">Liên kết</string>
+    <string name="buglog_link_none">Chưa liên kết task nào</string>
+    <string name="buglog_link_remove">Gỡ liên kết</string>
+    <string name="buglog_close">Đóng</string>
+    <string name="buglog_share_title">Chia sẻ bug log</string>
+
+    <string name="analytics_empty">Chưa có dữ liệu analytics</string>
+    <string name="analytics_error">Không tải được analytics</string>
+    <string name="analytics_error_forbidden">Bạn không có quyền xem analytics</string>
+    <string name="analytics_error_unavailable">Nguồn bug log đang không sẵn sàng, thử lại sau</string>
+    <string name="analytics_retry">Thử lại</string>
+    <string name="analytics_stale">Đang hiển thị dữ liệu cũ — làm mới thất bại</string>
+    <string name="analytics_synced">Dữ liệu bug đồng bộ: %1$s</string>
+    <string name="analytics_month">Tháng</string>
+    <string name="analytics_bugs_count">%1$d bug thật</string>
+    <string name="analytics_valid_title">Valid &amp; Rejected Bug Rate</string>
+    <string name="analytics_valid_rate">Valid Bug Rate</string>
+    <string name="analytics_reject_rate">Rejected Bug Rate</string>
+    <string name="analytics_valid_note">Valid = Closed / (Tổng − Reject) · Rejected = Reject / Tổng</string>
+    <string name="analytics_cross_title">Coverage · Density · Execution</string>
+    <string name="analytics_coverage">Test Coverage</string>
+    <string name="analytics_density">Bug Density</string>
+    <string name="analytics_execution">Test Execution</string>
+    <string name="analytics_pass_rate">Pass Rate</string>
+    <string name="analytics_chart_title">Bug của dev theo dự án</string>
+    <string name="analytics_chart_empty">Chưa có dữ liệu bug tháng này</string>
+    <string name="analytics_reopen_title">Tỷ lệ Reopen theo dev</string>
+    <string name="analytics_reopen_col_dev">Dev</string>
+    <string name="analytics_reopen_col_reopen">Reopen</string>
+    <string name="analytics_reopen_col_fix">Lần fix</string>
+    <string name="analytics_reopen_empty">Không có reopen tháng này</string>
+    <string name="analytics_backlog_title">Tồn đọng T-1 vs Mới phát sinh</string>
+    <string name="analytics_backlog_resolved">Đã xử lý</string>
+    <string name="analytics_backlog_still_open">Còn tồn</string>
+    <string name="analytics_backlog_new">Mới phát sinh</string>
+    <string name="analytics_backlog_no_snapshot">Chưa có snapshot tháng trước để so sánh</string>
+
     <!-- Notification (E7, #11) -->
     <string name="notif_channel_activity">Hoạt động task</string>
     <string name="notif_channel_activity_desc">Cập nhật trên các task bạn theo dõi (comment, đổi status, đổi hạn…)</string>
