@@ -73,8 +73,8 @@ Logic nghiệp vụ giữ nguyên, chỉ đổi output layer `render_*()` → `j
 - [x] **E8.6** Room cache bug log offline. (#13 — bảng `bug_log` flat, replace-all, AppDatabase v4)
 
 ## E9 — Tạo QA sub-task (P1) ⇦ E5
-- [ ] **E9.1** UI chọn Task-PTSP cha (`/search-parents`) + auto-fill `[QA] ` + Leader Hiền.
-- [ ] **E9.2** Tạo 1 `/create-subtask` / nhiều `/create-subtasks` cùng lúc.
+- [x] **E9.1** UI chọn Task-PTSP cha (`/search-parents`) + auto-fill `[QA] ` + Leader Hiền. (#14 — type-ahead parent + people, D11; assignee cũng type-ahead thay dropdown roster)
+- [x] **E9.2** Tạo 1 `/create-subtask` / nhiều `/create-subtasks` cùng lúc. (#14 — dùng `/create-subtasks` cho cả 1 lẫn nhiều, partial-failure giữ dòng lỗi)
 
 ## E10 — Search / command palette (P1) ⇦ E2
 - [ ] **E10.1** Global search `/global-search` (+ `/search-bugs`, `/search-tasks`, `/search-people`).

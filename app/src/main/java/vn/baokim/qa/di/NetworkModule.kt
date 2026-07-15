@@ -19,6 +19,7 @@ import vn.baokim.qa.data.mywork.MyWorkApi
 import vn.baokim.qa.data.net.AuthInterceptor
 import vn.baokim.qa.data.net.PatRedactingLogger
 import vn.baokim.qa.data.pat.PatApi
+import vn.baokim.qa.data.subtask.SubtaskApi
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -75,4 +76,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideBugLogApi(retrofit: Retrofit): BugLogApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideSubtaskApi(retrofit: Retrofit): SubtaskApi = retrofit.create()
 }

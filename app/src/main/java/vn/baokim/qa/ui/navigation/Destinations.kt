@@ -12,6 +12,7 @@ import vn.baokim.qa.domain.detail.CustomStatus
 /** Non-tab routes pushed on top of the bottom-nav scaffold (settings, detail, …). */
 object Routes {
     const val PAT = "settings/pat" // PAT cá nhân (E3, #5)
+    const val CREATE_SUBTASK = "create-subtask" // Tạo QA sub-task (E9, #14)
 }
 
 /**

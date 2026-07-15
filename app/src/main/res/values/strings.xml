@@ -128,6 +128,27 @@
     <string name="analytics_backlog_new">Mới phát sinh</string>
     <string name="analytics_backlog_no_snapshot">Chưa có snapshot tháng trước để so sánh</string>
 
+    <!-- Tạo QA sub-task (E9, #14) -->
+    <string name="subtask_open">Tạo sub-task</string>
+    <string name="subtask_title">Tạo QA sub-task</string>
+    <string name="subtask_back">Quay lại</string>
+    <string name="subtask_parent_label">Task cha — Task-PTSP *</string>
+    <string name="subtask_parent_hint">Gõ key hoặc tên Task-PTSP…</string>
+    <string name="subtask_summary_label">Tiêu đề * (mỗi dòng = 1 sub-task)</string>
+    <string name="subtask_summary_hint">Nội dung sub-task…\nMỗi dòng tạo 1 sub-task riêng</string>
+    <string name="subtask_summary_count">%1$d sub-task sẽ được tạo</string>
+    <string name="subtask_start_label">Ngày bắt đầu *</string>
+    <string name="subtask_due_label">Hạn chót *</string>
+    <string name="subtask_assignee_label">Người xử lý</string>
+    <string name="subtask_leader_label">Leader</string>
+    <string name="subtask_person_hint">Gõ tên (≥2 ký tự)…</string>
+    <string name="subtask_create_one">Tạo sub-task</string>
+    <string name="subtask_create_many">Tạo %1$d sub-task</string>
+    <string name="subtask_created_title">Đã tạo %1$d sub-task</string>
+    <string name="subtask_clear">Bỏ chọn</string>
+    <string name="subtask_save">Chọn</string>
+    <string name="subtask_cancel">Huỷ</string>
+
     <!-- Notification (E7, #11) -->
     <string name="notif_channel_activity">Hoạt động task</string>
     <string name="notif_channel_activity_desc">Cập nhật trên các task bạn theo dõi (comment, đổi status, đổi hạn…)</string>
